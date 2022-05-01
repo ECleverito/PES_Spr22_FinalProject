@@ -4,6 +4,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../source/IR_pin.c \
+../source/LEDs.c \
 ../source/PES_Spr22_FinalProject.c \
 ../source/UART.c \
 ../source/cbfifo.c \
@@ -12,6 +14,8 @@ C_SRCS += \
 ../source/sysclock.c 
 
 OBJS += \
+./source/IR_pin.o \
+./source/LEDs.o \
 ./source/PES_Spr22_FinalProject.o \
 ./source/UART.o \
 ./source/cbfifo.o \
@@ -20,6 +24,8 @@ OBJS += \
 ./source/sysclock.o 
 
 C_DEPS += \
+./source/IR_pin.d \
+./source/LEDs.d \
 ./source/PES_Spr22_FinalProject.d \
 ./source/UART.d \
 ./source/cbfifo.d \
