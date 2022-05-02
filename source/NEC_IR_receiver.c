@@ -81,6 +81,7 @@ typedef struct {
 void handle_IR_code_1();
 void handle_IR_code_2();
 void handle_IR_code_3();
+void handle_IR_code_4();
 
 static const IR_task_table_t IR_tasks[] = {
 		{
@@ -96,6 +97,11 @@ static const IR_task_table_t IR_tasks[] = {
 		{
 				"Toggle onboard blue LED",
 				handle_IR_code_3
+
+		},
+		{
+				"Turn off all LEDs",
+				handle_IR_code_4
 
 		}
 };
@@ -349,7 +355,7 @@ void handle_add(int argc, char *argv[]){
 				c = getchar();
 				c_int = c - 49;
 
-				if( c_int >= 0 && c_int <= 2 )
+				if( c_int >= 0 && c_int <= (sizeof(IR_tasks)/sizeof(IR_tasks[0]))-1 )
 					validSelection=1;
 				else
 					printf("Please enter a valid option from the list displayed earlier.\n\n\r");
@@ -407,5 +413,11 @@ void handle_IR_code_2(){
 void handle_IR_code_3(){
 
 	toggleLED(BLUE);
+
+}
+
+void handle_IR_code_4(){
+
+	LED_OFF(ALL_LEDS);
 
 }
