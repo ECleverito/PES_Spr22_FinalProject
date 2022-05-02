@@ -143,7 +143,8 @@ void listeningLoop(){
 		if(c == '\r'){
 			printf("\n\r");
 			*(cmdStr+i-1) = '\0';
-			break;
+			processCommand();
+			return;
 		}
 
     	if(newIRMessage)
@@ -172,12 +173,11 @@ void listeningLoop(){
 
 		if(IR_data_bit >= 32){
     		processIR(IR_data);
-    		IR_data_bit = 0;
+    		printf("\n\r");
+    		return;
 
 		}
 	}
-
-	processCommand();
 
 }
 
@@ -342,14 +342,14 @@ void handle_add(int argc, char *argv[]){
 
 			int validSelection=0;
 			char c = 0;
-			uint8_t c_int = 0;
+			uint8_t c_int = 255;
 
 			while(!validSelection){
 
 				c = getchar();
-				c_int = c - 48;
+				c_int = c - 49;
 
-				if( c_int >= 1 && c_int <= 3 )
+				if( c_int >= 0 && c_int <= 2 )
 					validSelection=1;
 				else
 					printf("Please enter a valid option from the list displayed earlier.\n\n\r");
