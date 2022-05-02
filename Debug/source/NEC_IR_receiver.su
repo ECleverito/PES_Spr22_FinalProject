@@ -1,5 +1,8 @@
-NEC_IR_receiver.c:80:6:listeningLoop	24	static
-NEC_IR_receiver.c:147:6:processCommand	72	static
-NEC_IR_receiver.c:215:6:handle_list	24	static
-NEC_IR_receiver.c:232:6:handle_add	32	static
-NEC_IR_receiver.c:285:6:init	352	static
+NEC_IR_receiver.c:117:6:listeningLoop	24	static
+NEC_IR_receiver.c:184:6:processCommand	72	static
+NEC_IR_receiver.c:252:6:handle_list	32	static
+NEC_IR_receiver.c:269:6:handle_add	48	static
+NEC_IR_receiver.c:356:6:init	352	static
+NEC_IR_receiver.c:379:6:handle_IR_code_1	8	static
+NEC_IR_receiver.c:385:6:handle_IR_code_2	8	static
+NEC_IR_receiver.c:391:6:handle_IR_code_3	8	static

@@ -69,7 +69,44 @@ static const int num_commands =
 
 char cmdStr[CMD_STR_BUFFER_SIZE];
 
-uint32_t myCodes[IR_CODE_BUFFER_SIZE];
+//IR task framework definition
+typedef void (*IR_task_handler_t)();
+
+//Struct for assigning GPIO tasks to the stored IR commands
+typedef struct {
+  const char *description;
+  IR_task_handler_t handler;
+}IR_task_table_t;
+
+void handle_IR_code_1();
+void handle_IR_code_2();
+void handle_IR_code_3();
+
+static const IR_task_table_t IR_tasks[] = {
+		{
+				"Toggle onboard red LED",
+				handle_IR_code_1
+
+		},
+		{
+				"Toggle onboard green LED",
+				handle_IR_code_2
+
+		},
+		{
+				"Toggle onboard blue LED",
+				handle_IR_code_3
+
+		}
+};
+
+typedef struct {
+	uint32_t IR_code;
+	IR_task_handler_t handler;
+	char func_description[64];
+}IR_linkedCode_table_t;
+
+IR_linkedCode_table_t myCodes[IR_CODE_BUFFER_SIZE];
 uint8_t numCodesAdded = 0;
 
 //Globals from IR interrupt routine
@@ -216,12 +253,12 @@ void handle_list(int argc, char *argv[]){
 
 
 
-	printf("\r\n%d codes out of %d have been added to the system:\r\n\r\n",
+	printf("\r\n%d codes out of %d have been added to the system:\n\n\r",
 			numCodesAdded,IR_CODE_BUFFER_SIZE);
 
 	for(int i=0; i<numCodesAdded; i++){
 
-		printf("\t%d - %X\n\r",i,myCodes[i]);
+		printf("\t%d - %X - %s\n\r",i+1,myCodes[i].IR_code,myCodes[i].func_description);
 
 	}
 
@@ -272,10 +309,44 @@ void handle_add(int argc, char *argv[]){
 		}
 
 		if(IR_data_bit >= 32){
-			printf("\r\nCode received: %X\n\n\r",IR_data);
-			myCodes[numCodesAdded++] = IR_data;
 			messageFound = true;
 			IR_data_bit = 0;
+			//Disable IR interrupts here
+
+			printf("\r\nCode received: %X\n\n\r",IR_data);
+			myCodes[numCodesAdded].IR_code = IR_data;
+
+			printf("Assign a function to this code from the following list:\n\n\r");
+
+			for(int i=0; i<(sizeof(IR_tasks)/sizeof(IR_tasks[0])); i++){
+
+				printf("\t%d - %s\n\r",i+1,IR_tasks[i].description);
+
+			}
+
+			int validSelection=0;
+			char c = 0;
+			uint8_t c_int = 0;
+
+			while(!validSelection){
+
+				c = getchar();
+				c_int = c - 48;
+
+				if( c_int >= 1 && c_int <= 3 )
+					validSelection=1;
+				else
+					printf("Please enter a valid option from the list displayed earlier.\n\n\r");
+
+			}
+
+			myCodes[numCodesAdded].handler = IR_tasks[c_int].handler;
+			sprintf(myCodes[numCodesAdded].func_description,IR_tasks[c_int].description,
+					strlen(IR_tasks[c_int].description));
+
+			numCodesAdded++;
+
+			handle_list(0,0);
 
 		}
 	}
@@ -286,8 +357,8 @@ void init(){
 
   	sysclock_init();
   	UART0_init();
-  	initLED(RED);
-  	toggleLED(RED);
+  	initLED(ALL_LEDS);
+  	LED_OFF(ALL_LEDS);
   	IR_pin_init();
 
   	char introString[] = "********************************************************************************\n\r"
@@ -302,5 +373,23 @@ void init(){
   	int i = 0;
   	while( introString[i++] != '\0' )
   		putchar(introString[i]);
+
+}
+
+void handle_IR_code_1(){
+
+	toggleLED(RED);
+
+}
+
+void handle_IR_code_2(){
+
+	toggleLED(GREEN);
+
+}
+
+void handle_IR_code_3(){
+
+	toggleLED(BLUE);
 
 }
