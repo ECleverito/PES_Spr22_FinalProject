@@ -8,6 +8,11 @@
 #ifndef NEC_IR_RECEIVER_H_
 #define NEC_IR_RECEIVER_H_
 
+#ifdef	DEBUG
+#define IR_CODE_BUFFER_SIZE (4u)
+#else
+#define IR_CODE_BUFFER_SIZE (20u)
+#endif
 #define CMD_STR_BUFFER_SIZE (64u)
 
 typedef enum{

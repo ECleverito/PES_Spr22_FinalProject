@@ -69,6 +69,9 @@ static const int num_commands =
 
 char cmdStr[CMD_STR_BUFFER_SIZE];
 
+uint32_t myCodes[IR_CODE_BUFFER_SIZE];
+uint8_t numCodesAdded = 0;
+
 //Globals from IR interrupt routine
 extern bool newIRMessage;
 extern bool IR_bit_Zero_Flag;
@@ -211,13 +214,71 @@ void processCommand()
 
 void handle_list(int argc, char *argv[]){
 
-	printf("List of codes that have been added displayed here\r\n");
+
+
+	printf("\r\n%d codes out of %d have been added to the system:\r\n\r\n",
+			numCodesAdded,IR_CODE_BUFFER_SIZE);
+
+	for(int i=0; i<numCodesAdded; i++){
+
+		printf("\t%d - %X\n\r",i,myCodes[i]);
+
+	}
+
+	printf("\r\n");
 
 }
 
 void handle_add(int argc, char *argv[]){
 
-	printf("Execute routine for adding a code and assigning it to a function\r\n");
+	if( numCodesAdded == IR_CODE_BUFFER_SIZE ){
+
+		printf("\n\rIR code buffer is full. Reset to clear the buffer to add more.\n\n\r");
+		return;
+
+	}
+
+	printf("\r\nSend the IR message that you would like to link.\n\n\r");
+	printf("Waiting...\r\n");
+
+	uint32_t IR_data = 0;
+	uint8_t IR_data_bit = 0;
+
+	bool messageFound = false;
+
+	while(!messageFound){
+		if(newIRMessage)
+		{
+			IR_data = 0;
+			IR_data_bit = 0;
+			newIRMessage = false;
+
+		}
+
+		if(IR_bit_Zero_Flag){
+
+			IR_data &= ~(1 << (31-IR_data_bit));
+			IR_bit_Zero_Flag=0;
+			IR_data_bit++;
+
+		}
+
+		if(IR_bit_One_Flag){
+
+			IR_data |= (1 << (31-IR_data_bit));
+			IR_bit_One_Flag=0;
+			IR_data_bit++;
+
+		}
+
+		if(IR_data_bit >= 32){
+			printf("\r\nCode received: %X\n\n\r",IR_data);
+			myCodes[numCodesAdded++] = IR_data;
+			messageFound = true;
+			IR_data_bit = 0;
+
+		}
+	}
 
 }
 
@@ -234,8 +295,8 @@ void init(){
 				 	 	 "********************************************************************************\n\r"
   						 "\n\r"
   						 "Available commands (case insensitive):\n\n\r"
-  						          "\tlistcodes - Lists the codes that have been received\n\r"
-  								  "\t   listen - Listens for new codes\n\r"
+  						          "\tlist - Lists the codes that have been received\n\r"
+  								  "\t add - Adds a new code and assigns a function\n\r"
   						 "\n\r";
 
   	int i = 0;
