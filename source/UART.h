@@ -35,4 +35,6 @@ int __sys_write(int handle, char *buf, int size);
 
 int __sys_readc(void);
 
+int userInputCheck();
+
 #endif /* UART_H_ */

@@ -5,3 +5,4 @@ UART.c:31:6:UART0_init	16	static
 UART.c:89:6:UART0_IRQHandler	24	static
 libconfig-arm.h:247:5:__sys_write	32	static
 libconfig-arm.h:241:5:__sys_readc	16	static
+UART.c:172:5:userInputCheck	8	static

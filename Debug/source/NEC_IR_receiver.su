@@ -1,0 +1,5 @@
+NEC_IR_receiver.c:77:6:listeningLoop	24	static
+NEC_IR_receiver.c:144:6:processCommand	72	static
+NEC_IR_receiver.c:212:6:handle_list	16	static
+NEC_IR_receiver.c:218:6:handle_add	16	static
+NEC_IR_receiver.c:224:6:init	344	static

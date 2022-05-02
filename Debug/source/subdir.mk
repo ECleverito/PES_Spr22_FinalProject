@@ -6,10 +6,11 @@
 C_SRCS += \
 ../source/IR_pin.c \
 ../source/LEDs.c \
-../source/PES_Spr22_FinalProject.c \
+../source/NEC_IR_receiver.c \
 ../source/TPM.c \
 ../source/UART.c \
 ../source/cbfifo.c \
+../source/main.c \
 ../source/mtb.c \
 ../source/semihost_hardfault.c \
 ../source/sysclock.c 
@@ -17,10 +18,11 @@ C_SRCS += \
 OBJS += \
 ./source/IR_pin.o \
 ./source/LEDs.o \
-./source/PES_Spr22_FinalProject.o \
+./source/NEC_IR_receiver.o \
 ./source/TPM.o \
 ./source/UART.o \
 ./source/cbfifo.o \
+./source/main.o \
 ./source/mtb.o \
 ./source/semihost_hardfault.o \
 ./source/sysclock.o 
@@ -28,10 +30,11 @@ OBJS += \
 C_DEPS += \
 ./source/IR_pin.d \
 ./source/LEDs.d \
-./source/PES_Spr22_FinalProject.d \
+./source/NEC_IR_receiver.d \
 ./source/TPM.d \
 ./source/UART.d \
 ./source/cbfifo.d \
+./source/main.d \
 ./source/mtb.d \
 ./source/semihost_hardfault.d \
 ./source/sysclock.d 

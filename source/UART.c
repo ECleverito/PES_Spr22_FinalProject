@@ -168,3 +168,8 @@ int __sys_readc(void){
 	return c;
 
 }
+
+int userInputCheck(){
+
+	return (cbfifo_length(RX_BUFF)!=0);
+}

@@ -14,7 +14,7 @@
 #include "stdbool.h"
 #include "stdio.h"
 
-bool newMessage = 0;
+bool newIRMessage = 0;
 bool bitFlag = false;
 bool IR_bit_Zero_Flag = false;
 bool IR_bit_One_Flag = false;
@@ -52,7 +52,7 @@ void PORTA_IRQHandler(){
 
 		//Clear overflow flag by setting it
 		TPM0->SC |= TPM_SC_TOF_MASK;
-		newMessage = true;
+		newIRMessage = true;
 		bitFlag = false;
 	}
 	else{
