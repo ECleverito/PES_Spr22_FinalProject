@@ -171,13 +171,29 @@ void listeningLoop(){
     	}
 
 		if(IR_data_bit >= 32){
-    		printf("%x\r\n",IR_data);
+    		processIR(IR_data);
     		IR_data_bit = 0;
 
 		}
 	}
 
 	processCommand();
+
+}
+
+void processIR(uint32_t IR_data){
+
+	//Disable IR interrupts
+
+	for(int i=0;i<numCodesAdded;i++){
+
+		if(IR_data == myCodes[i].IR_code){
+			myCodes[i].handler();
+			return;
+		}
+
+	}
+	printf("This code has not been added to the registry yet.\n\n\r");
 
 }
 

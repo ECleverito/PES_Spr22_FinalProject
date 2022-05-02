@@ -24,6 +24,8 @@ typedef enum{
 
 void listeningLoop();
 
+void processIR();
+
 void processCommand();
 
 void init();
