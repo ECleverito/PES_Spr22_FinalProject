@@ -2,6 +2,8 @@
 #include "MKL25Z4.h"
 
 #include "stdio.h"
+#include "stdint.h"
+#include "stdbool.h"
 
 #include "UART.h"
 #include "LEDs.h"
@@ -10,12 +12,51 @@
 
 void init();
 
+extern bool newMessage;
+extern bool IR_bit_Zero_Flag;
+extern bool IR_bit_One_Flag;
+
 int main(void) {
 
 	init();
 
-    while(1)
-    	;
+	uint32_t IR_data = 0;
+	uint8_t IR_data_bit = 0;
+
+    while(1){
+
+    	if(newMessage)
+    	{
+			IR_data = 0;
+			IR_data_bit = 0;
+    		newMessage = false;
+
+    	}
+
+    	if(IR_bit_Zero_Flag){
+
+    		IR_data &= ~(1 << (31-IR_data_bit));
+    		IR_bit_Zero_Flag=0;
+    		IR_data_bit++;
+
+    	}
+
+    	if(IR_bit_One_Flag){
+
+    		IR_data |= (1 << (31-IR_data_bit));
+    		IR_bit_One_Flag=0;
+    		IR_data_bit++;
+
+    	}
+
+		if(IR_data_bit >= 32){
+    		printf("%x\r\n",IR_data);
+    		IR_data_bit = 0;
+
+		}
+
+    }
+
     return 0;
 
 }

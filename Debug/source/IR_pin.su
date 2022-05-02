@@ -1,5 +1,5 @@
 core_cm0plus.h:745:22:NVIC_EnableIRQ	16	static
 core_cm0plus.h:791:22:NVIC_ClearPendingIRQ	16	static
 core_cm0plus.h:804:22:NVIC_SetPriority	24	static
-IR_pin.c:13:6:IR_pin_init	8	static
-IR_pin.c:32:6:PORTA_IRQHandler	8	static
+IR_pin.c:22:6:IR_pin_init	8	static
+IR_pin.c:43:6:PORTA_IRQHandler	16	static

@@ -7,6 +7,7 @@ C_SRCS += \
 ../source/IR_pin.c \
 ../source/LEDs.c \
 ../source/PES_Spr22_FinalProject.c \
+../source/TPM.c \
 ../source/UART.c \
 ../source/cbfifo.c \
 ../source/mtb.c \
@@ -17,6 +18,7 @@ OBJS += \
 ./source/IR_pin.o \
 ./source/LEDs.o \
 ./source/PES_Spr22_FinalProject.o \
+./source/TPM.o \
 ./source/UART.o \
 ./source/cbfifo.o \
 ./source/mtb.o \
@@ -27,6 +29,7 @@ C_DEPS += \
 ./source/IR_pin.d \
 ./source/LEDs.d \
 ./source/PES_Spr22_FinalProject.d \
+./source/TPM.d \
 ./source/UART.d \
 ./source/cbfifo.d \
 ./source/mtb.d \

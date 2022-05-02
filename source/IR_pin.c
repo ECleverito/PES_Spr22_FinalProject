@@ -9,8 +9,19 @@
 #include "IR_pin.h"
 
 #include "LEDs.h"
+#include "TPM.h"
+
+#include "stdbool.h"
+#include "stdio.h"
+
+bool newMessage = 0;
+bool bitFlag = false;
+bool IR_bit_Zero_Flag = false;
+bool IR_bit_One_Flag = false;
 
 void IR_pin_init(){
+
+	TPM0_init();
 
 	//Send the clock to PORTA
 	SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK;
@@ -31,7 +42,42 @@ void IR_pin_init(){
 
 void PORTA_IRQHandler(){
 
-	toggleLED(RED);
+	uint16_t pulseDuration = TPM0->CNT;
+	TPM0->CNT = 0;
+
+	if(TPM0->SC & TPM_SC_TOF_MASK){
+
+		//Overflow flag means this is a new message,
+		//as new data has not arrived for a long time.
+
+		//Clear overflow flag by setting it
+		TPM0->SC |= TPM_SC_TOF_MASK;
+		newMessage = true;
+		bitFlag = false;
+	}
+	else{
+
+		if(pulseDuration > 20000){
+
+			//Leader code. Can ignore.
+		}
+		else if(bitFlag){
+
+			if( pulseDuration > 7000 ){
+				IR_bit_One_Flag = 1;
+
+			}
+			else{
+				IR_bit_Zero_Flag = 1;
+			}
+			bitFlag=0;
+
+		}
+		else
+			bitFlag=1;
+
+	}
+//	toggleLED(RED);
 	PORTA->ISFR = 0xffffffff;
 
 }
