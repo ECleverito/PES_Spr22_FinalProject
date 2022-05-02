@@ -7,6 +7,8 @@
 
 #include "NEC_IR_receiver.h"
 
+#include "MKL25Z4.h"
+
 #include "stdio.h"
 #include "stdint.h"
 #include "stdbool.h"
@@ -190,16 +192,22 @@ void listeningLoop(){
 void processIR(uint32_t IR_data){
 
 	//Disable IR interrupts
+	NVIC_DisableIRQ(PORTA_IRQn);
 
 	for(int i=0;i<numCodesAdded;i++){
 
 		if(IR_data == myCodes[i].IR_code){
 			myCodes[i].handler();
+			//Re-enable IR interrupts
+			NVIC_EnableIRQ(PORTA_IRQn);
 			return;
 		}
 
 	}
 	printf("This code has not been added to the registry yet.\n\n\r");
+
+	//Re-enable IR interrupts
+	NVIC_EnableIRQ(PORTA_IRQn);
 
 }
 
@@ -333,7 +341,9 @@ void handle_add(int argc, char *argv[]){
 		if(IR_data_bit >= 32){
 			messageFound = true;
 			IR_data_bit = 0;
+
 			//Disable IR interrupts here
+			NVIC_DisableIRQ(PORTA_IRQn);
 
 			printf("\r\nCode received: %X\n\n\r",IR_data);
 			myCodes[numCodesAdded].IR_code = IR_data;
@@ -370,6 +380,8 @@ void handle_add(int argc, char *argv[]){
 
 			handle_list(0,0);
 
+			//Reenable IR signal interrupts
+			NVIC_EnableIRQ(PORTA_IRQn);
 		}
 	}
 
