@@ -27,9 +27,9 @@ Additional IR tasks can be added by creating a task handler prototype, adding it
 ![image](https://user-images.githubusercontent.com/16659086/166407282-b77f4ebe-c913-4b50-93d8-0c3f77a2fa4f.png)
 
 The commands available in the case-insensitive command processor are the following:  
-	* list - Lists the contents of the IR code registry  
- 	* add - Adds a new IR code and assigns a function  
-  	* help - Display this list of available commands  
+* list - Lists the contents of the IR code registry  
+* add - Adds a new IR code and assigns a function  
+* help - Display this list of available commands  
 
 Additional commands may be added in a similar fashion as above in the following section in NEC_IR_receiver.c:
 
