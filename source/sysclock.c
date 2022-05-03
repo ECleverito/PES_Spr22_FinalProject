@@ -1,3 +1,24 @@
+// ***********************************************
+// ***********************************************
+// **********	PES Spring 2022			**********
+// **********	Final Project:			**********
+// **********	Universal IR Receiver	**********
+// ***********************************************
+// ***********************************************
+// **********	By: Erich Clever		**********
+// **********	Date: May 2, 2022		**********
+// ********** Instructor: Howdy Pierce	**********
+// ***********************************************
+// ***********************************************
+// **********	Version: 1.0			**********
+// ***********************************************
+// ********** 	File: sysclock.c		**********
+// ***********************************************
+//NOTE: This source file was based on a configuration
+//		file provided by Howdy Pierce (howdy.pierce@colorado.edu)
+//		as part of the course Principles of Embedded
+//		Systems at CU Boulder, Spring 22. Below,
+//		his original comments are included
 /* 
  * sysclock.c - configuration routines for KL25Z system clock
  * 
@@ -6,7 +27,6 @@
  * See section 24 of the KL25Z Reference Manual to understand this code
  *
  * Inspired by https://learningmicro.wordpress.com/configuring-device-clock-and-using-systick-system-tick-timer-module-to-generate-software-timings/
-
  */
 
 #include "MKL25Z4.h"

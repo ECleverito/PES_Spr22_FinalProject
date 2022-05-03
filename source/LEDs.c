@@ -1,12 +1,12 @@
 // ***********************************************
 // ***********************************************
 // **********	PES Spring 2022			**********
-// **********	Assignment 3:			**********
-// **********	Blinkenlights			**********
+// **********	Final Project:			**********
+// **********	Universal IR Receiver	**********
 // ***********************************************
 // ***********************************************
 // **********	By: Erich Clever		**********
-// **********	Date: Feb 11, 2022		**********
+// **********	Date: May 2, 2022		**********
 // ********** Instructor: Howdy Pierce	**********
 // ***********************************************
 // ***********************************************
@@ -14,6 +14,8 @@
 // ***********************************************
 // **********   File: LEDs.c		    **********
 // ***********************************************
+// Code for initialization and interface functions
+// with LEDs on FRDM KL25Z development board.
 // ***********************************************
 
 #include <LEDs.h>
@@ -150,37 +152,3 @@ void LED_OFF(LED_t myLED){
 	}
 }
 
-//void LED_test(){
-//
-//	//Ensure all of the LEDs are OFF
-//	LED_OFF(ALL_LEDS);
-//
-//	//Turn red LED on for 500 ms then off for 100 ms
-//	LED_ON(RED);
-//	myDelay(500);
-//	LED_OFF(RED);
-//	myDelay(100);
-//
-//	//Turn green LED on for 500 ms then off for 100 ms
-//	LED_ON(GREEN);
-//	myDelay(500);
-//	LED_OFF(GREEN);
-//	myDelay(100);
-//
-//	//Turn blue LED on for 500 ms then off for 100 ms
-//	LED_ON(BLUE);
-//	myDelay(500);
-//	LED_OFF(BLUE);
-//	myDelay(100);
-//
-//	//Turn all LEDs on for 100 ms then off for 100 ms twice, consecutively
-//	LED_ON(ALL_LEDS);
-//	myDelay(100);
-//	LED_OFF(ALL_LEDS);
-//	myDelay(100);
-//	LED_ON(ALL_LEDS);
-//	myDelay(100);
-//	LED_OFF(ALL_LEDS);
-//	myDelay(100);
-//
-//}

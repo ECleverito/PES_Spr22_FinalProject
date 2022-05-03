@@ -1,9 +1,25 @@
-/*
- * NEC_IR_receiver.c
- *
- *  Created on: May 2, 2022
- *      Author: erich
- */
+// ***********************************************
+// ***********************************************
+// **********	PES Spring 2022			**********
+// **********	Final Project:			**********
+// **********	Universal IR Receiver	**********
+// ***********************************************
+// ***********************************************
+// **********	By: Erich Clever		**********
+// **********	Date: May 2, 2022		**********
+// ********** Instructor: Howdy Pierce	**********
+// ***********************************************
+// ***********************************************
+// **********	Version: 1.0			**********
+// ***********************************************
+// **********  File: NEC_IR_receiver.c	**********
+// ***********************************************
+// Main loop, command processor, IR code processing
+// and registry, and handler code for both
+// processors. Additional commands and functions
+// available for linking with IR codes can
+// be added here.
+// ***********************************************
 
 #include "NEC_IR_receiver.h"
 
@@ -19,6 +35,8 @@
 #include "IR_pin.h"
 #include "sysclock.h"
 
+//**********COMMAND PROCESSOR UTILITITES**********
+
 //Command handler function pointer type definition
 typedef void (*command_handler_t)(int, char *argv[]);
 
@@ -32,6 +50,8 @@ typedef struct {
 void handle_list(int argc, char *argv[]);
 
 void handle_add(int argc, char *argv[]);
+
+void handle_help(int argc, char *argv[]);
 //ADD NEW COMMAND HANDLERS ABOVE THIS LINE
 
 //Table where new commands are added
@@ -61,6 +81,11 @@ static const command_table_t commands[] = {
 				"add",
 				handle_add
 
+		},
+		{
+				"help",
+				handle_help
+
 		}
 };
 
@@ -71,7 +96,10 @@ static const int num_commands =
 
 char cmdStr[CMD_STR_BUFFER_SIZE];
 
-//IR task framework definition
+//**********IR TASK/REGISTRY UTILITITES**********
+
+//Handler definition for tasks/functions mapped
+//to IR codes received
 typedef void (*IR_task_handler_t)();
 
 //Struct for assigning GPIO tasks to the stored IR commands
@@ -108,13 +136,15 @@ static const IR_task_table_t IR_tasks[] = {
 		}
 };
 
+//Struct for elements of IR registry
 typedef struct {
 	uint32_t IR_code;
 	IR_task_handler_t handler;
 	char func_description[64];
-}IR_linkedCode_table_t;
+}IR_registry_t;
 
-IR_linkedCode_table_t myCodes[IR_CODE_BUFFER_SIZE];
+//IR code registry
+IR_registry_t IR_registry[IR_REGISTRY_SIZE];
 uint8_t numCodesAdded = 0;
 
 //Globals from IR interrupt routine
@@ -131,7 +161,7 @@ void listeningLoop(){
 	//awaiting a command
 	printf("? ");
 
-	//User UART0 input variables
+	//UART0 user input variables
 	int i = 0;
 	char c = 0;
 
@@ -141,6 +171,7 @@ void listeningLoop(){
 
 	while(1){
 
+		//Check for input on UART0 from user
 		if(userInputCheck()){
 			c = getchar();
 			*(cmdStr+i) = c;
@@ -148,6 +179,7 @@ void listeningLoop(){
 			i++;
 		}
 
+		//If user has pressed "Enter", process the command
 		if(c == '\r'){
 			printf("\n\r");
 			*(cmdStr+i-1) = '\0';
@@ -155,6 +187,7 @@ void listeningLoop(){
 			return;
 		}
 
+		//If a new message is arriving over IR sensor, reset variables
     	if(newIRMessage)
     	{
 			IR_data = 0;
@@ -163,6 +196,8 @@ void listeningLoop(){
 
     	}
 
+    	//If a zero bit has been detected in IR interrupt routine,
+    	//clear the next bit in the word variable being constructed
     	if(IR_bit_Zero_Flag){
 
     		IR_data &= ~(1 << (31-IR_data_bit));
@@ -171,6 +206,8 @@ void listeningLoop(){
 
     	}
 
+    	//If a one bit has been detected in IR interrupt routine,
+    	//set the next bit in the word variable being constructed
     	if(IR_bit_One_Flag){
 
     		IR_data |= (1 << (31-IR_data_bit));
@@ -179,6 +216,8 @@ void listeningLoop(){
 
     	}
 
+    	//Once enough data bits have been received to create a word,
+    	//send the word for processing
 		if(IR_data_bit >= 32){
     		processIR(IR_data);
     		printf("\n\r");
@@ -194,10 +233,12 @@ void processIR(uint32_t IR_data){
 	//Disable IR interrupts
 	NVIC_DisableIRQ(PORTA_IRQn);
 
+	//Search IR code registry for the code
 	for(int i=0;i<numCodesAdded;i++){
 
-		if(IR_data == myCodes[i].IR_code){
-			myCodes[i].handler();
+		//If code found, execute its associated handler
+		if(IR_data == IR_registry[i].IR_code){
+			IR_registry[i].handler();
 			//Re-enable IR interrupts
 			NVIC_EnableIRQ(PORTA_IRQn);
 			return;
@@ -281,14 +322,14 @@ void processCommand()
 
 void handle_list(int argc, char *argv[]){
 
-
-
+	//Display how many codes have been added to the registry
 	printf("\r\n%d codes out of %d have been added to the system:\n\n\r",
-			numCodesAdded,IR_CODE_BUFFER_SIZE);
+			numCodesAdded,IR_REGISTRY_SIZE);
 
+	//Displays the codes and their associated tasks
 	for(int i=0; i<numCodesAdded; i++){
 
-		printf("\t%d - %X - %s\n\r",i+1,myCodes[i].IR_code,myCodes[i].func_description);
+		printf("\t%d - %X - %s\n\r",i+1,IR_registry[i].IR_code,IR_registry[i].func_description);
 
 	}
 
@@ -298,15 +339,18 @@ void handle_list(int argc, char *argv[]){
 
 void handle_add(int argc, char *argv[]){
 
-	if( numCodesAdded == IR_CODE_BUFFER_SIZE ){
+	//If the registry is full, let the user know and return
+	if( numCodesAdded == IR_REGISTRY_SIZE ){
 
-		printf("\n\rIR code buffer is full. Reset to clear the buffer to add more.\n\n\r");
+		printf("\n\rIR code registry is full. Reset to clear the registry to add more.\n\n\r");
 		return;
 
 	}
 
-	printf("\r\nSend the IR message that you would like to link.\n\n\r");
+	printf("\r\nSend the IR message that you would like to add to the registry.\n\n\r");
 	printf("Waiting...\r\n");
+
+	//Wait for an IR code to be sent
 
 	uint32_t IR_data = 0;
 	uint8_t IR_data_bit = 0;
@@ -338,6 +382,9 @@ void handle_add(int argc, char *argv[]){
 
 		}
 
+
+		//Once a code is received, display it and add it to the registry.
+		//Then, display available task options for linking to this code.
 		if(IR_data_bit >= 32){
 			messageFound = true;
 			IR_data_bit = 0;
@@ -346,7 +393,7 @@ void handle_add(int argc, char *argv[]){
 			NVIC_DisableIRQ(PORTA_IRQn);
 
 			printf("\r\nCode received: %X\n\n\r",IR_data);
-			myCodes[numCodesAdded].IR_code = IR_data;
+			IR_registry[numCodesAdded].IR_code = IR_data;
 
 			printf("Assign a function to this code from the following list:\n\n\r");
 
@@ -363,8 +410,10 @@ void handle_add(int argc, char *argv[]){
 			while(!validSelection){
 
 				c = getchar();
+				//Convert received ASCII character to an integer
 				c_int = c - 49;
 
+				//Search available task list for user selection
 				if( c_int >= 0 && c_int <= (sizeof(IR_tasks)/sizeof(IR_tasks[0]))-1 )
 					validSelection=1;
 				else
@@ -372,12 +421,13 @@ void handle_add(int argc, char *argv[]){
 
 			}
 
-			myCodes[numCodesAdded].handler = IR_tasks[c_int].handler;
-			sprintf(myCodes[numCodesAdded].func_description,IR_tasks[c_int].description,
+			IR_registry[numCodesAdded].handler = IR_tasks[c_int].handler;
+			sprintf(IR_registry[numCodesAdded].func_description,IR_tasks[c_int].description,
 					strlen(IR_tasks[c_int].description));
 
 			numCodesAdded++;
 
+			//Displayed updated registry contents
 			handle_list(0,0);
 
 			//Reenable IR signal interrupts
@@ -385,6 +435,21 @@ void handle_add(int argc, char *argv[]){
 		}
 	}
 
+}
+
+void handle_help(int argc, char *argv[]){
+
+	char helpString[] =
+				 "\n\r"
+				 "Available commands (case insensitive):\n\n\r"
+				          "\tlist - Lists the contents of the IR code registry\n\r"
+						  "\t add - Adds a new code and assigns a function\n\r"
+						  "\thelp - Display this list of available commands"
+				 "\n\r";
+
+  	int i = 0;
+  	while( helpString[i++] != '\0' )
+  		putchar(helpString[i]);
 }
 
 void init(){
@@ -400,8 +465,9 @@ void init(){
 				 	 	 "********************************************************************************\n\r"
   						 "\n\r"
   						 "Available commands (case insensitive):\n\n\r"
-  						          "\tlist - Lists the codes that have been received\n\r"
+  						          "\tlist - Lists the contents of the IR code registry\n\r"
   								  "\t add - Adds a new code and assigns a function\n\r"
+  								  "\thelp - Display this list of available commands"
   						 "\n\r";
 
   	int i = 0;

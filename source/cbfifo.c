@@ -1,24 +1,32 @@
 // ***********************************************
 // ***********************************************
 // **********	PES Spring 2022			**********
-// **********	Assignment 6			**********
+// **********	Final Project:			**********
+// **********	Universal IR Receiver	**********
+// ***********************************************
+// ***********************************************
 // **********	By: Erich Clever		**********
-// **********	Date: April 6, 2022		**********
-// **********Instructor: Howdy Pierce	**********
+// **********	Date: May 2, 2022		**********
+// ********** Instructor: Howdy Pierce	**********
+// ***********************************************
 // ***********************************************
 // **********	Version: 1.0			**********
-// **********	Tools used: MCUXpresso	**********
-// ***********************************************
 // ***********************************************
 // ********** 	File: cbfifo.c			**********
 // ***********************************************
+// Functions for initializing and interfacing with
+// circular FIFO buffers, primarily for use with
+// UART peripherals to add robustness
 // ***********************************************
-//NOTE: This source file contains "wrapped subtracts" for calculating 
-//		read/write position and CB length based on Elicia White's algorithms
-//		from the section titled "Circular Buffers" in Chapter 6 of
-//		"Making Embedded Systems Design Patterns for Great Software",
-//		1st Edition, published by O'Reilly media. Instances of these formulas
-//		will be preceded by "White, Chp.6" to indicate this	
+//NOTE: This source file contains "wrapped subtracts"
+//		for calculating read/write position and CB
+//		length based on Elicia White's algorithms
+//		from the section titled "Circular Buffers"
+//		in Chapter 6 of "Making Embedded Systems
+//		Design Patterns for Great Software", 1st
+//		 Edition, published by O'Reilly media.
+//		Instances of these formulas will be preceded
+//		by "White, Chp.6" to indicate this.
 
 #ifndef _CBFIFO_H_
 #include "cbfifo.h"

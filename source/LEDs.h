@@ -1,12 +1,12 @@
 // ***********************************************
 // ***********************************************
 // **********	PES Spring 2022			**********
-// **********	Assignment 3:			**********
-// **********	Blinkenlights			**********
+// **********	Final Project:			**********
+// **********	Universal IR Receiver	**********
 // ***********************************************
 // ***********************************************
 // **********	By: Erich Clever		**********
-// **********	Date: Feb 11, 2022		**********
+// **********	Date: May 2, 2022		**********
 // ********** Instructor: Howdy Pierce	**********
 // ***********************************************
 // ***********************************************
@@ -14,6 +14,8 @@
 // ***********************************************
 // **********   File: LEDs.h		    **********
 // ***********************************************
+// Code for initialization and interface functions
+// with LEDs on FRDM KL25Z development board.
 // ***********************************************
 
 #ifndef LEDS_H_
@@ -81,21 +83,5 @@ void LED_ON(LED_t myLED);
 //									enum defined above.
 //
 void LED_OFF(LED_t myLED);
-
-// Function:  LED_test - Turns all LEDs on and off to test
-//							them. Sequence should be the
-//							following:
-//								1. Red LED ON for 500 ms
-//								2. LEDs OFF for 100 ms
-//								3. Green LED ON for 500 ms
-//								4. LEDs OFF for 100 ms
-//								5. Blue LED ON for 500 ms
-//								6. LEDs OFF for 100 ms
-//								7. All LEDs ON for 100 ms
-//								8. LEDs OFF for 100 ms
-//								9. All LEDs ON for 100 ms
-//								10. LEDs OFF for 100 ms
-//
-void LED_test();
 
 #endif /* LEDS_H_ */
