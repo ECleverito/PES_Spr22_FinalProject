@@ -2073,8 +2073,8 @@ END GROUP
                                   0x7 (size before relaxing)
  *fill*         0x00003263        0x1 ff
  .rodata.processIR.str1.4
-                0x00003264       0x35 ./source/NEC_IR_receiver.o
- *fill*         0x00003299        0x3 ff
+                0x00003264       0x36 ./source/NEC_IR_receiver.o
+ *fill*         0x0000329a        0x2 ff
  .rodata.processCommand.str1.4
                 0x0000329c       0x16 ./source/NEC_IR_receiver.o
  *fill*         0x000032b2        0x2 ff
@@ -2253,21 +2253,21 @@ END GROUP
                 0x0000385c                _image_size = (_image_end - _image_start)
 OUTPUT(PES_Spr22_FinalProject.axf elf32-littlearm)
 
-.debug_info     0x00000000     0x5c65
+.debug_info     0x00000000     0x5c67
  .debug_info    0x00000000      0x4df ./startup/startup_mkl25z4.o
  .debug_info    0x000004df      0x976 ./source/IR_pin.o
  .debug_info    0x00000e55      0x488 ./source/LEDs.o
- .debug_info    0x000012dd      0x95c ./source/NEC_IR_receiver.o
- .debug_info    0x00001c39      0x3c2 ./source/TPM.o
- .debug_info    0x00001ffb      0x849 ./source/UART.o
- .debug_info    0x00002844      0x42c ./source/cbfifo.o
- .debug_info    0x00002c70       0xd6 ./source/main.o
- .debug_info    0x00002d46       0x53 ./source/mtb.o
- .debug_info    0x00002d99       0x3c ./source/semihost_hardfault.o
- .debug_info    0x00002dd5      0x1e4 ./source/sysclock.o
- .debug_info    0x00002fb9     0x1469 ./drivers/fsl_lpsci.o
- .debug_info    0x00004422     0x140a ./drivers/fsl_uart.o
- .debug_info    0x0000582c      0x439 ./CMSIS/system_MKL25Z4.o
+ .debug_info    0x000012dd      0x95e ./source/NEC_IR_receiver.o
+ .debug_info    0x00001c3b      0x3c2 ./source/TPM.o
+ .debug_info    0x00001ffd      0x849 ./source/UART.o
+ .debug_info    0x00002846      0x42c ./source/cbfifo.o
+ .debug_info    0x00002c72       0xd6 ./source/main.o
+ .debug_info    0x00002d48       0x53 ./source/mtb.o
+ .debug_info    0x00002d9b       0x3c ./source/semihost_hardfault.o
+ .debug_info    0x00002dd7      0x1e4 ./source/sysclock.o
+ .debug_info    0x00002fbb     0x1469 ./drivers/fsl_lpsci.o
+ .debug_info    0x00004424     0x140a ./drivers/fsl_uart.o
+ .debug_info    0x0000582e      0x439 ./CMSIS/system_MKL25Z4.o
 
 .debug_abbrev   0x00000000     0x1689
  .debug_abbrev  0x00000000      0x18d ./startup/startup_mkl25z4.o
@@ -2357,21 +2357,21 @@ OUTPUT(PES_Spr22_FinalProject.axf elf32-littlearm)
  .debug_macro   0x000008f8       0xf2 ./drivers/fsl_uart.o
  .debug_macro   0x000009ea       0x94 ./CMSIS/system_MKL25Z4.o
 
-.debug_line     0x00000000     0x3f02
+.debug_line     0x00000000     0x3f11
  .debug_line    0x00000000      0x1e7 ./startup/startup_mkl25z4.o
  .debug_line    0x000001e7      0x38c ./source/IR_pin.o
  .debug_line    0x00000573      0x398 ./source/LEDs.o
- .debug_line    0x0000090b      0x6f5 ./source/NEC_IR_receiver.o
- .debug_line    0x00001000      0x25b ./source/TPM.o
- .debug_line    0x0000125b      0x45a ./source/UART.o
- .debug_line    0x000016b5      0x45b ./source/cbfifo.o
- .debug_line    0x00001b10      0x250 ./source/main.o
- .debug_line    0x00001d60       0xd1 ./source/mtb.o
- .debug_line    0x00001e31       0x59 ./source/semihost_hardfault.o
- .debug_line    0x00001e8a      0x250 ./source/sysclock.o
- .debug_line    0x000020da      0xd83 ./drivers/fsl_lpsci.o
- .debug_line    0x00002e5d      0xd72 ./drivers/fsl_uart.o
- .debug_line    0x00003bcf      0x333 ./CMSIS/system_MKL25Z4.o
+ .debug_line    0x0000090b      0x6fe ./source/NEC_IR_receiver.o
+ .debug_line    0x00001009      0x25b ./source/TPM.o
+ .debug_line    0x00001264      0x45a ./source/UART.o
+ .debug_line    0x000016be      0x461 ./source/cbfifo.o
+ .debug_line    0x00001b1f      0x250 ./source/main.o
+ .debug_line    0x00001d6f       0xd1 ./source/mtb.o
+ .debug_line    0x00001e40       0x59 ./source/semihost_hardfault.o
+ .debug_line    0x00001e99      0x250 ./source/sysclock.o
+ .debug_line    0x000020e9      0xd83 ./drivers/fsl_lpsci.o
+ .debug_line    0x00002e6c      0xd72 ./drivers/fsl_uart.o
+ .debug_line    0x00003bde      0x333 ./CMSIS/system_MKL25Z4.o
 
 .debug_str      0x00000000    0x335f7
  .debug_str     0x00000000     0x31e8 ./startup/startup_mkl25z4.o

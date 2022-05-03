@@ -220,8 +220,7 @@ void listeningLoop(){
     	//send the word for processing
 		if(IR_data_bit >= 32){
     		processIR(IR_data);
-    		printf("\n\r");
-    		return;
+    		newIRMessage = true;
 
 		}
 	}
@@ -245,7 +244,7 @@ void processIR(uint32_t IR_data){
 		}
 
 	}
-	printf("This code has not been added to the registry yet.\n\n\r");
+	printf("This code has not been added to the registry yet.\n\r? ");
 
 	//Re-enable IR interrupts
 	NVIC_EnableIRQ(PORTA_IRQn);
