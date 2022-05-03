@@ -5,9 +5,9 @@ NEC_IR_receiver.c:230:6:processIR	24	static
 NEC_IR_receiver.c:254:6:processCommand	72	static
 NEC_IR_receiver.c:322:6:handle_list	32	static
 NEC_IR_receiver.c:339:6:handle_add	48	static
-NEC_IR_receiver.c:439:6:handle_help	216	static
-NEC_IR_receiver.c:454:6:init	400	static
-NEC_IR_receiver.c:478:6:handle_IR_code_1	8	static
-NEC_IR_receiver.c:484:6:handle_IR_code_2	8	static
-NEC_IR_receiver.c:490:6:handle_IR_code_3	8	static
-NEC_IR_receiver.c:496:6:handle_IR_code_4	8	static
+NEC_IR_receiver.c:452:6:handle_help	216	static
+NEC_IR_receiver.c:467:6:init	400	static
+NEC_IR_receiver.c:491:6:handle_IR_code_1	8	static
+NEC_IR_receiver.c:497:6:handle_IR_code_2	8	static
+NEC_IR_receiver.c:503:6:handle_IR_code_3	8	static
+NEC_IR_receiver.c:509:6:handle_IR_code_4	8	static

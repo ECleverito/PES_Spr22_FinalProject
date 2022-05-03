@@ -392,6 +392,19 @@ void handle_add(int argc, char *argv[]){
 			NVIC_DisableIRQ(PORTA_IRQn);
 
 			printf("\r\nCode received: %X\n\n\r",IR_data);
+
+			//Do not allow duplicate codes to be added, as they
+			//do not result in the expected behavior
+			for(int i=0;i<numCodesAdded;i++){
+				if(IR_registry[i].IR_code == IR_data){
+					printf("This code is already in the registry. Reset system to clear registry"
+							" if you wish to reassign the code or attempt this function again with"
+							" a different code.\n\n\r");
+					return;
+				}
+
+			}
+
 			IR_registry[numCodesAdded].IR_code = IR_data;
 
 			printf("Assign a function to this code from the following list:\n\n\r");
