@@ -400,6 +400,7 @@ void handle_add(int argc, char *argv[]){
 					printf("This code is already in the registry. Reset system to clear registry"
 							" if you wish to reassign the code or attempt this function again with"
 							" a different code.\n\n\r");
+					NVIC_EnableIRQ(PORTA_IRQn);
 					return;
 				}
 
