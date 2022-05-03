@@ -17,10 +17,10 @@ PTA3 is configured as an input pin to generate interrupts on every edge detected
 Each interrupt from PTA3 examines the current value held in TPM0's CNT register, which is reset on every interrupt. In this manner, the duration of every pulse can be measured. The "Leader Code" above can be ignored, and the different durations of 0's and 1's shown above (1's period = 2.25 ms w/ 25% duty cycle, 0's period = 1.125 ms w/ 50% duty cycle) can be used to decode the signals.
 
 UART interrupts are also running in order for the system to serve as a command processor to allow a user to add new codes and to assign "tasks" to each code. The code base contains four built-in tasks that can be assigned to codes in oder to demonstrate the ability to link any NEC-protocl IR code to GPIO. They are the following tasks:
-  -Toggle the onboard Red LED
-  -Toggle the onboard Green LED
-  -Toggle the onboard Blue LED
-  -Turn off all of the onboard LEDs
+  -Toggle the onboard Red LED_
+  -Toggle the onboard Green LED_
+  -Toggle the onboard Blue LED_
+  -Turn off all of the onboard LEDs_
 
 Additional IR tasks can be added by creating a task handler prototype, adding its description and its handler to the table below, and then defining the actual handler code later on in the file NEC_IR_receiver.c:
 
